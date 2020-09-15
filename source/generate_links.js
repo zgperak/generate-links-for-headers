@@ -78,6 +78,14 @@ headers.forEach(function(header) {
         container.innerHTML = `<div class="glfh_headerContainer">${container.innerHTML}<div class="glfh_linkContainer"><a id="${genlinkid}" href="${anchorUrl}" title="Copy link to clipboard"><svg height="16" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="${chainsvg}"></path></svg></a></div></div>`;
         document.getElementById(genlinkid)
             .addEventListener("click", function(evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                container.insertAdjacentHTML('beforeend','<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                    'Poveznica je kopirana, možete je zalijepiti gdje želite.' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                    '    <span aria-hidden="true">&times;</span>\n' +
+                    '  </button>' +
+                    '</div>')
                 copyFunc(evt, anchorUrl)
             });
     }
