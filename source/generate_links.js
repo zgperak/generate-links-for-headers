@@ -58,7 +58,7 @@ let chainsvg = "M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 
     "1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z";
 
 // Select all anchors with a valid ID value
-let headers = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+let headers = document.querySelectorAll('section.pb-section');
 
 // Inject the 'copy link' function into the current page, if there are any headers
 if (headers.length > 0) {
@@ -72,9 +72,10 @@ let counter = 0;
 headers.forEach(function(header) {
     let id = getFirstId(header) || getParentId(header);
     if (id) {
-        let anchorUrl = `${location.protocol}//${location.host}${location.pathname}${location.search}#${id}`;
+        let anchorUrl = `${location.protocol}//${location.host}${location.pathname}?jumpTo=${id}`;
         let genlinkid = `genlink_${counter++}`;
-        header.innerHTML = `<div class="glfh_headerContainer">${header.innerHTML}<div class="glfh_linkContainer"><a id="${genlinkid}" href="${anchorUrl}" title="Copy link to clipboard"><svg height="16" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="${chainsvg}"></path></svg></a></div></div>`;
+        let container = header.getElementsByClassName('container').item(0);
+        container.innerHTML = `<div class="glfh_headerContainer">${container.innerHTML}<div class="glfh_linkContainer"><a id="${genlinkid}" href="${anchorUrl}" title="Copy link to clipboard"><svg height="16" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="${chainsvg}"></path></svg></a></div></div>`;
         document.getElementById(genlinkid)
             .addEventListener("click", function(evt) {
                 copyFunc(evt, anchorUrl)
